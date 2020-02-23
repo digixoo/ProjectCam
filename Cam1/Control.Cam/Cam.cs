@@ -8,6 +8,7 @@ namespace Cam1.Control.Cam
         public string NameCam { set; get; }
         public bool Activo { private set; get; }
         public string MonikeCam { set; get; }
+        public float NivelDeDeteccion { set; get; }
 
         public Cam()
         {

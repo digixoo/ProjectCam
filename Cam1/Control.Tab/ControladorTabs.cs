@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AForge.Controls;
+using System;
+using System.Drawing;
 using System.Windows.Forms;
-using AForge.Controls;
-using Cam1.Control.Cam;
 
 namespace Cam1.Control.Tab
 {
@@ -16,10 +12,12 @@ namespace Cam1.Control.Tab
         public VideoSourcePlayer PantallaCam { private set; get; }
         public Cam.Cam Camara { private set; get; }
 
+
         public ControladorTabs(Cam.Cam Camara)
         {
             if (Camara != null)
             {
+                this.Camara = Camara;
                 System.Drawing.Point point;
                 //Label de nivel de detección
                 LblNivelDeteccion = new Label();
@@ -34,7 +32,7 @@ namespace Cam1.Control.Tab
                 //============================================
                 //Text Box de nivel de detección
                 txtNivelDeteccion = new TextBox();
-
+                txtNivelDeteccion.Name = "txtNivelDeteccion";
                 point = new System.Drawing.Point();
                 point.X = 306;
                 point.Y = 16;
@@ -46,22 +44,37 @@ namespace Cam1.Control.Tab
 
                 //============================================
                 //Pantalla de Camara
+                VideoSourcePlayer.NewFrameHandler newFrameHandler = new VideoSourcePlayer.NewFrameHandler(videoSourcePlayer_NewFrame);
                 PantallaCam = new VideoSourcePlayer();
                 PantallaCam.Name = "VideoCam";
+                PantallaCam.Tag = Camara;
                 point = new System.Drawing.Point();
                 point.X = 6;
                 point.Y = 42;
                 PantallaCam.Location = point;
                 PantallaCam.Width = 400;
                 PantallaCam.Height = 300;
+                PantallaCam.NewFrame += newFrameHandler;
+                //PantallaCam.NewFrame += videoSourcePlayer1_NewFrame();
             }
             else
             {
                 throw new NullReferenceException("No existe camara referenciada");
             }
-            
-
         }
+
+        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        {
+            try
+            {
+                Camara.NivelDeDeteccion = Camara.Detector.ProcessFrame(image);
+            }
+            catch
+            {
+
+            }
+        }
+
 
     }
 }

@@ -71,8 +71,11 @@ namespace Cam1
         {
             foreach (TabPage tab in TabCam.TabPages)
             {
-                AForge.Controls.VideoSourcePlayer video = (AForge.Controls.VideoSourcePlayer)tab.Controls["VideoCam"];                
-                video.SignalToStop();
+                AForge.Controls.VideoSourcePlayer video = (AForge.Controls.VideoSourcePlayer)tab.Controls["VideoCam"];
+                if (video.VideoSource.IsRunning)
+                {
+                    video.SignalToStop();
+                }
             }
 
 
@@ -102,6 +105,24 @@ namespace Cam1
 
         private void timer1_Tick(object sender, System.EventArgs e)
         {
+            Cam camara;
+            AForge.Controls.VideoSourcePlayer video;
+            TextBox TxtNivel;
+            string nivelDeDeteccion;
+
+            foreach (TabPage tab in TabCam.TabPages)
+            {
+                nivelDeDeteccion = "";
+                video = (AForge.Controls.VideoSourcePlayer)tab.Controls["VideoCam"];
+                TxtNivel = (TextBox)tab.Controls["txtNivelDeteccion"];
+                
+                camara = (Cam)video.Tag;
+                TxtNivel.Text = string.Format("{0:00.0000}", camara.NivelDeDeteccion);
+                
+            }
+
+
+
             txt_lvl_detection.Text = string.Format("{0:00.0000}", NivelDeDeteccion);
             //txt_lvl_detection.Text = NivelDeDeteccion.ToString(); ;
 
@@ -203,21 +224,32 @@ namespace Cam1
             {
                 if (!Camara.Activo)
                 {
-                    controladorTabs = new Control.Tab.ControladorTabs(Camara);
+                    try
+                    {
+                        controladorTabs = new Control.Tab.ControladorTabs(Camara);
+                        TabCamPage.Text = Camara.NameCam;
+                        TabCamPage.Controls.Add(controladorTabs.LblNivelDeteccion);
+                        TabCamPage.Controls.Add(controladorTabs.txtNivelDeteccion);
+                        TabCamPage.Controls.Add(controladorTabs.PantallaCam);
+                        TabCam.TabPages.Add(TabCamPage);
 
-                    TabCamPage.Text = Camara.NameCam;
-                    TabCamPage.Controls.Add(controladorTabs.LblNivelDeteccion);
-                    TabCamPage.Controls.Add(controladorTabs.txtNivelDeteccion);
-                    TabCamPage.Controls.Add(controladorTabs.PantallaCam);
-                    TabCam.TabPages.Add(TabCamPage);
-
-                    controladorTabs.PantallaCam.VideoSource = Camara.ActivarCam();
-                    controladorTabs.PantallaCam.Start();
+                        controladorTabs.PantallaCam.VideoSource = Camara.ActivarCam();
+                        controladorTabs.PantallaCam.Start();
+                    }
+                    catch(NullReferenceException )
+                    {
+                        MessageBox.Show("Problema para mostrar la camara seleccionada");
+                    }
+                  
                 }
                 else
                 {
                     MessageBox.Show("La camara seleccionada ya se encuentra activa");
                 }
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado una camra valida");
             }
         }
     }

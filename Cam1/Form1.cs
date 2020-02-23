@@ -1,4 +1,5 @@
 ﻿
+using Cam1.Control.Cam;
 using Microsoft.Win32;
 using System;
 using System.Drawing;
@@ -42,9 +43,9 @@ namespace Cam1
 
                     videoSourcePlayer1.VideoSource = cam.ActivarCam();
                     videoSourcePlayer1.Start();
-                    Estado.Text = "Ejecutando dispositivo " + cboDispositivos.SelectedItem .ToString();
+                    Estado.Text = "Ejecutando dispositivo " + cboDispositivos.SelectedItem.ToString();
                     btnIniciar.Text = "Detener";
-                    cboDispositivos.Enabled = false;                                        
+                    cboDispositivos.Enabled = false;
                 }
                 else
                 {
@@ -60,7 +61,7 @@ namespace Cam1
                         videoSourcePlayer1.SignalToStop();
                         Estado.Text = "Dispositivo detenido";
                         btnIniciar.Text = "Iniciar";
-                        cboDispositivos.Enabled = true;                        
+                        cboDispositivos.Enabled = true;
                     }
                 }
             }
@@ -68,6 +69,14 @@ namespace Cam1
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            foreach (TabPage tab in TabCam.TabPages)
+            {
+                AForge.Controls.VideoSourcePlayer video = (AForge.Controls.VideoSourcePlayer)tab.Controls["VideoCam"];                
+                video.SignalToStop();
+            }
+
+
+
             if (btnIniciar.Text == "Detener")
             {
                 btnIniciar_Click(sender, e);
@@ -75,23 +84,20 @@ namespace Cam1
         }
 
         private void Form1_Load(object sender, System.EventArgs e)
-        {            
+        {
             NivelDeDeteccion = 0;
         }
 
         private void videoSourcePlayer1_NewFrame(object sender, ref Bitmap image)
         {
             try
-            {                
+            {
                 NivelDeDeteccion = cam.Detector.ProcessFrame(image);
             }
             catch
             {
 
             }
-
-
-
         }
 
         private void timer1_Tick(object sender, System.EventArgs e)
@@ -183,6 +189,36 @@ namespace Cam1
         {
             this.ShowInTaskbar = true;
             this.Show();
+        }
+
+        private void btn_agregar_Click(object sender, EventArgs e)
+        {
+            TabPage TabCamPage = new TabPage();
+            Cam Camara;
+            Control.Tab.ControladorTabs controladorTabs;
+
+            Camara = ControladorCamara.lstCant.Find(x => x.MonikeCam.Contains(cboDispositivos.SelectedValue.ToString()));
+
+            if (Camara != null)
+            {
+                if (!Camara.Activo)
+                {
+                    controladorTabs = new Control.Tab.ControladorTabs(Camara);
+
+                    TabCamPage.Text = Camara.NameCam;
+                    TabCamPage.Controls.Add(controladorTabs.LblNivelDeteccion);
+                    TabCamPage.Controls.Add(controladorTabs.txtNivelDeteccion);
+                    TabCamPage.Controls.Add(controladorTabs.PantallaCam);
+                    TabCam.TabPages.Add(TabCamPage);
+
+                    controladorTabs.PantallaCam.VideoSource = Camara.ActivarCam();
+                    controladorTabs.PantallaCam.Start();
+                }
+                else
+                {
+                    MessageBox.Show("La camara seleccionada ya se encuentra activa");
+                }
+            }
         }
     }
 }

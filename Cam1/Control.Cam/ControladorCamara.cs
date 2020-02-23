@@ -2,9 +2,9 @@
 using AForge.Vision.Motion;
 using System.Collections.Generic;
 
-namespace Cam1
+namespace Cam1.Control.Cam
 {
-    class ControladorCamara
+    public class ControladorCamara
     {          
 
         private bool _ExistenDispositivos = false;

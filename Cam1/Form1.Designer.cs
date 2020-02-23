@@ -41,6 +41,8 @@
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.TabCam = new System.Windows.Forms.TabControl();
+            this.btn_agregar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +111,7 @@
             // 
             // txt_lvl_detection
             // 
-            this.txt_lvl_detection.Location = new System.Drawing.Point(306, 12);
+            this.txt_lvl_detection.Location = new System.Drawing.Point(306, 16);
             this.txt_lvl_detection.Name = "txt_lvl_detection";
             this.txt_lvl_detection.Size = new System.Drawing.Size(100, 20);
             this.txt_lvl_detection.TabIndex = 8;
@@ -117,7 +119,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(201, 16);
+            this.label2.Location = new System.Drawing.Point(201, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 7;
@@ -146,11 +148,32 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
+            // TabCam
+            // 
+            this.TabCam.Location = new System.Drawing.Point(492, 49);
+            this.TabCam.Multiline = true;
+            this.TabCam.Name = "TabCam";
+            this.TabCam.SelectedIndex = 0;
+            this.TabCam.Size = new System.Drawing.Size(433, 416);
+            this.TabCam.TabIndex = 10;
+            // 
+            // btn_agregar
+            // 
+            this.btn_agregar.Location = new System.Drawing.Point(216, 464);
+            this.btn_agregar.Name = "btn_agregar";
+            this.btn_agregar.Size = new System.Drawing.Size(75, 23);
+            this.btn_agregar.TabIndex = 11;
+            this.btn_agregar.Text = "Agregar";
+            this.btn_agregar.UseVisualStyleBackColor = true;
+            this.btn_agregar.Click += new System.EventHandler(this.btn_agregar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 433);
+            this.ClientSize = new System.Drawing.Size(1090, 564);
+            this.Controls.Add(this.btn_agregar);
+            this.Controls.Add(this.TabCam);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -176,6 +199,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button txt_spy;
+        private System.Windows.Forms.TabControl TabCam;
+        private System.Windows.Forms.Button btn_agregar;
     }
 }
 

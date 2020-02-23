@@ -1,19 +1,19 @@
 ﻿using AForge.Video.DirectShow;
 using AForge.Vision.Motion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cam1
+namespace Cam1.Control.Cam
 {
     public class Cam
     {
         public string NameCam { set; get; }
-
+        public bool Activo { private set; get; }
         public string MonikeCam { set; get; }
 
+        public Cam()
+        {
+            Activo = false;
+        }
+        
         public VideoCaptureDevice FuenteDeVideo { get; private set; }
 
         //Variables para la detección de movimiento
@@ -24,6 +24,7 @@ namespace Cam1
             FuenteDeVideo = new VideoCaptureDevice(MonikeCam);
             //Inicializar variable de detector
             Detector = new MotionDetector(new TwoFramesDifferenceDetector(), new MotionBorderHighlighting());
+            Activo = true;
 
             return FuenteDeVideo;
         }

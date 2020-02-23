@@ -84,8 +84,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cam.cs" />
-    <Compile Include="ControladorCamara.cs" />
+    <Compile Include="Control.Cam\Cam.cs" />
+    <Compile Include="Control.Cam\ControladorCamara.cs" />
+    <Compile Include="Control.Tab\ControladorTabs.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -40,3 +40,28 @@ C:\Users\fmolina\OneDrive - Dimension S.A\2.Project\Cam1\Cam1\obj\Debug\Cam1.exe
 C:\Users\fmolina\OneDrive - Dimension S.A\2.Project\Cam1\Cam1\obj\Debug\Cam1.pdb
 C:\Users\fmolina\OneDrive - Dimension S.A\2.Project\Cam1\Cam1\bin\Debug\AForge.Controls.dll
 C:\Users\fmolina\OneDrive - Dimension S.A\2.Project\Cam1\Cam1\bin\Debug\AForge.Controls.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.csprojAssemblyReference.cache
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.Form1.resources
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.Properties.Resources.resources
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.csproj.GenerateResource.cache
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.csproj.CoreCompileInputs.cache
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.exe
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.pdb
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\Cam1.exe.config
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\Cam1.exe
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\Cam1.pdb
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Controls.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Imaging.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Math.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Video.DirectShow.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Video.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Vision.dll
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Controls.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Imaging.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Math.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Video.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Video.DirectShow.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\bin\Debug\AForge.Vision.xml
+C:\Users\fmolina\Documents\Ubuntu\Project\Cam1\Cam1\obj\Debug\Cam1.csproj.CopyComplete

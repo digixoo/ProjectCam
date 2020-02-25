@@ -11,13 +11,17 @@ namespace Cam1.Control.Tab
         public TextBox txtNivelDeteccion { private set; get; }
         public VideoSourcePlayer PantallaCam { private set; get; }
         public Cam.Cam Camara { private set; get; }
+        public Button BtnApagarCam { private set; get; }
+        public Button BtnCerrarTab { private set; get; }
 
+        private TabPage Pagina;
 
-        public ControladorTabs(Cam.Cam Camara)
+        public ControladorTabs(Cam.Cam Camara, TabPage tabPage)
         {
             if (Camara != null)
             {
                 this.Camara = Camara;
+                this.Pagina = tabPage;
                 System.Drawing.Point point;
                 //Label de nivel de detección
                 LblNivelDeteccion = new Label();
@@ -55,7 +59,28 @@ namespace Cam1.Control.Tab
                 PantallaCam.Width = 400;
                 PantallaCam.Height = 300;
                 PantallaCam.NewFrame += newFrameHandler;
-                //PantallaCam.NewFrame += videoSourcePlayer1_NewFrame();
+
+                //============================================
+                //Activar Desactivar camara               
+                BtnApagarCam = new Button ();
+                BtnApagarCam.Name = "BtnApagarAccion";
+                BtnApagarCam.Text = "Desactivar";
+                point = new System.Drawing.Point();
+                point.X = 6;
+                point.Y = 342;
+                BtnApagarCam.Location = point;
+                BtnApagarCam.Click += new EventHandler(BtnApagarCam_Click);
+
+                //============================================
+                //Cerrar Tab
+                BtnCerrarTab = new Button();
+                BtnCerrarTab.Name = "BtnCerrarTab";
+                BtnCerrarTab.Text = "Cerrar Camara";
+                point = new System.Drawing.Point();
+                point.X = 80;
+                point.Y = 342;
+                BtnCerrarTab.Location = point;
+                BtnCerrarTab.Click += new EventHandler(BtnCerrarTab_Click);
             }
             else
             {
@@ -68,6 +93,22 @@ namespace Cam1.Control.Tab
             try
             {
                 Camara.NivelDeDeteccion = Camara.Detector.ProcessFrame(image);
+                
+                if (Camara.NivelDeDeteccion > 0.02)
+                {
+                    //Variable para la imagen
+                    Bitmap img;
+                    img = PantallaCam.GetCurrentVideoFrame();
+                    if (img != null)
+                    {
+                        string ruta = System.Configuration.ConfigurationManager.AppSettings["sourceImg"].ToString() + System.DateTime.Now.ToString("yyyyMMddhhmmss") + ".jpeg";
+
+                        //Guardar imagen en la ruta
+                        img.Save(ruta, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        //borramos imagen de memoria
+                        img.Dispose();
+                    }
+                }
             }
             catch
             {
@@ -75,6 +116,28 @@ namespace Cam1.Control.Tab
             }
         }
 
+        private void BtnApagarCam_Click(object sender, EventArgs e)
+        {
+            int accion = -1;
 
+            accion = Camara.DesactivarActivarCam();
+
+            switch (accion)
+            {
+                case 0:
+                    BtnApagarCam.Text = "Activar";
+                    break;
+                case 1:
+                    BtnApagarCam.Text = "Desactivar";
+                    break;
+                    
+            }
+        }
+
+        private void BtnCerrarTab_Click(object sender, EventArgs e)
+        {
+            Camara.DesactivarCam();
+            Pagina.Dispose();
+        }
     }
 }

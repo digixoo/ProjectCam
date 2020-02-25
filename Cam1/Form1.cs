@@ -32,41 +32,6 @@ namespace Cam1
             //===================================================
         }
 
-
-        private void btnIniciar_Click(object sender, System.EventArgs e)
-        {
-            cam = ControladorCamara.lstCant.Find(x => x.MonikeCam.Contains(cboDispositivos.SelectedValue.ToString()));
-            if (btnIniciar.Text == "Iniciar")
-            {
-                if (ControladorCamara.ExistenDispositivos)
-                {
-
-                    videoSourcePlayer1.VideoSource = cam.ActivarCam();
-                    videoSourcePlayer1.Start();
-                    Estado.Text = "Ejecutando dispositivo " + cboDispositivos.SelectedItem.ToString();
-                    btnIniciar.Text = "Detener";
-                    cboDispositivos.Enabled = false;
-                }
-                else
-                {
-                    Estado.Text = "Error: No se encuentran dispositivos";
-                }
-            }
-            else
-            {
-                if (cam != null)
-                {
-                    if (cam.FuenteDeVideo.IsRunning)
-                    {
-                        videoSourcePlayer1.SignalToStop();
-                        Estado.Text = "Dispositivo detenido";
-                        btnIniciar.Text = "Iniciar";
-                        cboDispositivos.Enabled = true;
-                    }
-                }
-            }
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             foreach (TabPage tab in TabCam.TabPages)
@@ -77,30 +42,11 @@ namespace Cam1
                     video.SignalToStop();
                 }
             }
-
-
-
-            if (btnIniciar.Text == "Detener")
-            {
-                btnIniciar_Click(sender, e);
-            }
         }
 
         private void Form1_Load(object sender, System.EventArgs e)
         {
-            NivelDeDeteccion = 0;
-        }
-
-        private void videoSourcePlayer1_NewFrame(object sender, ref Bitmap image)
-        {
-            try
-            {
-                NivelDeDeteccion = cam.Detector.ProcessFrame(image);
-            }
-            catch
-            {
-
-            }
+            
         }
 
         private void timer1_Tick(object sender, System.EventArgs e)
@@ -108,44 +54,16 @@ namespace Cam1
             Cam camara;
             AForge.Controls.VideoSourcePlayer video;
             TextBox TxtNivel;
-            string nivelDeDeteccion;
 
             foreach (TabPage tab in TabCam.TabPages)
-            {
-                nivelDeDeteccion = "";
+            {                
                 video = (AForge.Controls.VideoSourcePlayer)tab.Controls["VideoCam"];
                 TxtNivel = (TextBox)tab.Controls["txtNivelDeteccion"];
-                
+
                 camara = (Cam)video.Tag;
                 TxtNivel.Text = string.Format("{0:00.0000}", camara.NivelDeDeteccion);
-                
+
             }
-
-
-
-            txt_lvl_detection.Text = string.Format("{0:00.0000}", NivelDeDeteccion);
-            //txt_lvl_detection.Text = NivelDeDeteccion.ToString(); ;
-
-
-            //Variable para la imagen
-            Bitmap img = videoSourcePlayer1.GetCurrentVideoFrame();
-            if (img != null)
-            {
-                if (NivelDeDeteccion > 0.02)
-                {
-                    string ruta = System.Configuration.ConfigurationManager.AppSettings["sourceImg"].ToString() + System.DateTime.Now.ToString("yyyyMMddhhmmss") + ".jpeg";
-
-                    //Guardar imagen en la ruta
-                    img.Save(ruta, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                }
-                //borramos imagen de memoria
-                img.Dispose();
-            }
-
-
-
-
         }
 
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
@@ -163,14 +81,14 @@ namespace Cam1
             //}
             if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
-                btnIniciar_Click(sender, e);
+                //btnIniciar_Click(sender, e);
             }
             if (e.Reason == SessionSwitchReason.SessionLock)
             {
-                if (btnIniciar.Text != "Detener")
-                {
-                    btnIniciar_Click(sender, e);
-                }
+                //if (btnIniciar.Text != "Detener")
+                //{
+                //    btnIniciar_Click(sender, e);
+                //}
             }
             //if (e.Reason == SessionSwitchReason.ConsoleConnect)
             //{
@@ -222,15 +140,17 @@ namespace Cam1
 
             if (Camara != null)
             {
-                if (!Camara.Activo)
+                if (!BuscaCam(Camara))
                 {
                     try
                     {
-                        controladorTabs = new Control.Tab.ControladorTabs(Camara);
+                        controladorTabs = new Control.Tab.ControladorTabs(Camara, TabCamPage);
                         TabCamPage.Text = Camara.NameCam;
                         TabCamPage.Controls.Add(controladorTabs.LblNivelDeteccion);
                         TabCamPage.Controls.Add(controladorTabs.txtNivelDeteccion);
                         TabCamPage.Controls.Add(controladorTabs.PantallaCam);
+                        TabCamPage.Controls.Add(controladorTabs.BtnApagarCam);
+                        TabCamPage.Controls.Add(controladorTabs.BtnCerrarTab);
                         TabCam.TabPages.Add(TabCamPage);
 
                         controladorTabs.PantallaCam.VideoSource = Camara.ActivarCam();
@@ -240,7 +160,7 @@ namespace Cam1
                     {
                         MessageBox.Show("Problema para mostrar la camara seleccionada");
                     }
-                  
+
                 }
                 else
                 {
@@ -251,6 +171,25 @@ namespace Cam1
             {
                 MessageBox.Show("No se ha seleccionado una camra valida");
             }
+        }
+
+        private bool BuscaCam(Cam Camara)
+        {
+            Cam CamaraAux;
+            bool existe = false;
+
+            foreach (TabPage tab in TabCam.TabPages)
+            {
+                AForge.Controls.VideoSourcePlayer video = (AForge.Controls.VideoSourcePlayer)tab.Controls["VideoCam"];
+                CamaraAux = (Cam)video.Tag;
+                if(Camara.NameCam == CamaraAux.NameCam)
+                {
+                    existe = true;
+                    break;
+                }
+            }
+
+            return existe;
         }
     }
 }
